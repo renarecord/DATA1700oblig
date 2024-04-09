@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <title>DATA1700 Oblig</title>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-5">
+            <h1>Bestilling av kinobiletter</h1>
+            <form class="form">
+                <div class="form-group">
+                    <label for="film">Velg Film:</label>
+
+                    <select type="text" class="form-control" id="film"
+                    onfocus="skjulFeilmelding('film-feilmelding')"
+                    oninput="skjulFeilmelding('filmTomt-feilmelding')">
+                        <option>Velg film her</option>
+                        <option>Wonka</option>
+                        <option>Kung Fu Panda</option>
+                        <option>Dune</option>
+                        <option>Ilbelin</option>
+                        <option>Perfect Days</option>
+                    </select>
+                </div>
+                <td>
+                    <p id="film-feilmelding" style="color: red; display: none">Må velg film</p>
+                    <p id="filmTomt-feilmelding" style="color: red; display: none">Må velg film</p>
+                </td>
+
+
+                <div class="form-group">
+                    <label for="antall">Antall</label>
+                    <input type="number" class="form-control" id="antall"
+                    onfocus="skjulFeilmelding('antall-feilmelding')"
+                           oninput="skjulFeilmelding('antallTomt-feilmelding')">
+
+                </div>
+                <td>
+                    <p id="antall-feilmelding" style="color: red; display: none">Antall må være større en null</p>
+                    <p id="antallTomt-feilmelding" style="color: red; display: none">Må velg antall</p>
+                </td>
+
+                <div class="form-group">
+                    <label for="fornavn">Fornavn</label>
+                    <input type="text" class="form-control" id="fornavn"
+                    onfocus="skjulFeilmelding('fornavnTomt-feilmelding')"
+                    oninput="skjulFeilmelding('fornavn-feilmelding')">
+                </div>
+                <td>
+                    <p id="fornavn-feilmelding" style="color: red; display: none" >Bruk kun bokstaver for fornavn</p>
+                    <p id="fornavnTomt-feilmelding" style="color: red; display: none" >Skriv inn fornavn</p>
+                </td>
+
+                <div class="form-group">
+                    <label for="etternavn">Etternavn</label>
+                    <input type="text" class="form-control" id="etternavn"
+                    onfocus="skjulFeilmelding('etternavnTomt-feilmelding')"
+                    oninput="skjulFeilmelding('etternavn-feilmelding')">
+                </div>
+                <td>
+                    <p id="etternavn-feilmelding" style="color: red; display: none">Bruk kun bokstaver for etternavn</p>
+                    <p id="etternavnTomt-feilmelding" style="color: red; display: none">Skriv inn etternavn</p>
+                </td>
+
+                <div class="form-group">
+                    <label for="telefonnr">Telefonnr</label>
+                    <input type="number" class="form-control" id="telefonnr"
+                           onfocus="skjulFeilmelding('telefonnrTomt-feilmelding')"
+                           oninput="skjulFeilmelding('telefonnr-feilmelding')">
+                </div>
+                <td>
+                    <p id="telefonnr-feilmelding" style="color: red; display: none">Bruk kun 8 siffer tall</p>
+                    <p id="telefonnrTomt-feilmelding" style="color: red; display: none">Skriv inn telefonnr</p>
+                </td>
+
+                <div class="form-group">
+                    <label for="epost">Epost</label>
+                    <input type="text" class="form-control" id="epost"
+                           onfocus="skjulFeilmelding('epostTomt-feilmelding')"
+                           oninput="skjulFeilmelding('epost-feilmelding')">
+                </div>
+                <td>
+                    <p id="epost-feilmelding" style="color: red; display: none" >Bruk glydig epost</p>
+                    <p id="epostTomt-feilmelding" style="color: red; display: none" >Skriv inn epost</p>
+                </td>
+            </form>
+
+            <button class="btn btn-primary" onclick="regBilett()">Kjøp bilett</button>
+        </div>
+        <div class="col-md-7">
+            <h2>Alle biletter</h2>
+
+            <div id="kjøpBilett" class="table-responsive"></div>
+
+            <button class="btn btn-danger" onclick="slettAlle()">Slett alle bilettene</button>
+        </div>
+    </div>
+</div>
+
+<script type="application/javascript">
+
+
+    function skjulFeilmelding(id) {
+        $(`#${id}`).css("display", "none");
+
+    }
+    function regBilett() {
+        gyldigInput = true;
+        const bilett = {
+            film: $("#film").val(),
+            antall: $("#antall").val(),
+            fornavn: $("#fornavn").val(),
+            etternavn: $("#etternavn").val(),
+            telefonnr: $("#telefonnr").val(),
+            epost: $("#epost").val(),
+        };
+
+        if (bilett.film == "Velg film her") {
+            $("#film-feilmelding").css("display", "block");
+            gyldigInput = false;
+        }
+        if (!bilett.film) {
+            $("#filmTomt-feilmelding").css("display", "block");
+            gyldigInput = false;
+        }
+        if (bilett.antall < 1) {
+            $("#antall-feilmelding").css("display", "block");
+            gyldigInput = false;
+        }
+
+        if (!bilett.antall) {
+            $("#antallTomt-feilmelding").css("display", "block");
+            gyldigInput = false;
+        }
+        if (!bilett.fornavn) {
+            $("#fornavnTomt-feilmelding").css("display", "block");
+            gyldigInput = false;
+        }
+        if (!isNaN(bilett.fornavn)) {
+            $("#fornavn-feilmelding").css("display", "block");
+            gyldigInput = false;
+        }
+        if (!bilett.etternavn) {
+            $("#etternavnTomt-feilmelding").css("display", "block");
+            gyldigInput = false;
+        }
+        if (!isNaN(bilett.etternavn)) {
+            $("#etternavn-feilmelding").css("display", "block");
+            gyldigInput = false;
+        }
+        if (!bilett.telefonnr) {
+            $("#telefonnrTomt-feilmelding").css("display", "block");
+            gyldigInput = false;
+        }
+        if (bilett.telefonnr.length != 8) {
+            $("#telefonnr-feilmelding").css("display", "block");
+            gyldigInput = false;
+        }
+        if (!bilett.epost) {
+            $("#epostTomt-feilmelding").css("display", "block");
+            gyldigInput = false;
+        }
+        if (!bilett.epost.match(/[a-zA-Z0-9-]@[a-zA-Z0-9-]+.[a-zA-Z0-9-]/)) {
+            $("#epost-feilmelding").css("display", "block");
+            gyldigInput = false;
+        }
+
+        if (gyldigInput) {
+            $.post("/lagre", bilett, function () {
+                hentAlle();
+
+            });
+            $("#film").val("");
+            $("#antall").val("");
+            $("#fornavn").val("");
+            $("#etternavn").val("");
+            $("#telefonnr").val("");
+            $("#epost").val("");
+
+        }
+        }
+
+
+        function hentAlle() {
+            $.get("/hentAlle", function (biletter) {
+                formaterData(biletter);
+            });
+        }
+
+        function formaterData(biletter) {
+            let ut = "<table><tr><th>Film</th><th>Antall</th><th>Fornavn</th><th>Etternavn</th><th>Telefonnr</th>" +
+                "<th>Epost</th></tr>";
+            for (const b of biletter) {
+                ut += "<tr><td>" + b.film + "</td><td>" + b.antall + "</td><td>" + b.fornavn + "</td><td>" + b.etternavn +
+                    "</td><td>" + b.telefonnr + "</td><td>" + b.epost + "</td></tr>";
+            }
+            ut += "</table>";
+            $("#kjøpBilett").html(ut);
+        }
+
+        function slettAlle() {
+            $.get("/slettAlle", function () {
+                hentAlle();
+            });
+        }
+
+
+
+</script>
+
+</body>
+</html>
