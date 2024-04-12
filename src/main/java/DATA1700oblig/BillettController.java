@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class BillettController {
@@ -20,7 +22,8 @@ public class BillettController {
 
     @GetMapping({"/hentAlle"})
     public List<Billett> hentAlle() {
-        return billettRepository.findAll();
+        return billettRepository.findAll().stream().sorted(Comparator.comparing(Billett::getEtternavn)).
+                collect(Collectors.toList());
     }
 
     @GetMapping({"/slettAlle"})
