@@ -159,12 +159,6 @@ function slettBillett(billett) {
     });
 }
 
-function validerFornavn() {
-    const fornavn = $("#fornavn").val();
-    const regexp = /^[a-zåøæA-Zåøæ. \-]{2,20}/;
-
-    
-}
 
 function hentAlle() {
     $.get("/hentAlle", function (biletter) {
@@ -232,7 +226,7 @@ function formaterData(billetter) {
                     etternavn: $('#etternavn-${b.id}').val(),  
                     telefonnr: $('#telefonnr-${b.id}').val(),
                     epost: $('#epost-${b.id}').val()    
-                 })">Endre</button>
+                 })">Oppdater</button>
                  </td><td><button class="btn btn-primary" onclick="slettBillett({
                     id: ${b.id}  
                  })">Slett</button>
